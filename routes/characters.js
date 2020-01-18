@@ -20,7 +20,7 @@ router.post('/save', async (req, res) => {
     }
     else {
         res.sendStatus(500);
-        console.log(result);
+        console.log('123');
     }
 })
 
