@@ -14,13 +14,13 @@ router.post('/save', async (req, res) => {
     const {Warrior, Magician, Bowman, Thief, Pirate, Lab} = characters;
     const text = 'UPDATE archetypes SET "Warrior" = $1, "Magician" = $2, "Bowman" = $3, "Thief" = $4, "Pirate" = $5, "Lab" = $6 WHERE id = $7';
     const parameters = [Warrior, Magician, Bowman, Thief, Pirate, Lab, 15];
-    const result = await db.query(text, parameters);
-    if(result){
+    try {
+        const result = await db.query(text, parameters);
         res.status(200).send(result)
     }
-    else {
+    catch(error) {
         res.sendStatus(500);
-        console.log('123');
+        console.error(error);
     }
 })
 
