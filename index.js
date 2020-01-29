@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const cors = require('cors');
+const cookieSession = require('cookie-session');
 const mountRoutes = require('./routes');
 const corsOptions = {
     origin: 'http://localhost:8080',
