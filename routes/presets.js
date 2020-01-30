@@ -4,6 +4,7 @@ const db = require('../db');
 
 // gets all presets for user
 router.get('/', async (req, res) => {
+    console.log({req: req.user});
     const query = {
         text: 'SELECT characters, preset, stats FROM presets WHERE "user" = $1 ORDER BY preset',
         values: [15]
