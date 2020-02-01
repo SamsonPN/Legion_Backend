@@ -34,12 +34,10 @@ async function addUserToDatabase(profile) {
 }
 
 passport.serializeUser((id, done) => {
-    console.log({serializeUser: id})
     done(null, id);
 })
 
 passport.deserializeUser((id, done) => {
-    console.log({deserializeUser: id})
     done(null, id)
 })
 
