@@ -33,6 +33,20 @@ async function addUserToDatabase(profile) {
     }
 }
 
+async function addUserPresets(id) {
+    const query = {
+        text: 'INSERT INTO presets("user", "preset") VALUES ($1, 1), ($1, 2), ($1, 3), ($1, 4), ($1, 5)',
+        values: [id]
+    }
+    try {
+        const result = await db.query(query);
+        console.log({ result })
+    }
+    catch(err) {
+        console.error(err);
+    }
+}
+
 passport.serializeUser((id, done) => {
     done(null, id);
 })
@@ -54,7 +68,8 @@ passport.use(
         }
         else {
             const result = await addUserToDatabase(profile);
-            console.log({ result });
+            const presets = await addUserPresets(profile.id);
+            console.log({ result, presets });
             done(null, id)
         }
     })
@@ -73,7 +88,8 @@ passport.use(
         }
         else {
             const result = await addUserToDatabase(profile);
-            console.log({ result });
+            const presets = await addUserPresets(profile.id);
+            console.log({ result, presets });
             done(null, id);
         }
     })
