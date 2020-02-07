@@ -26,21 +26,35 @@ async function addUserToDatabase(profile) {
     }
     try {
         const result = await db.query(query);
-        console.log({ result })
+        return result;
     }
     catch(err) {
         console.error(err);
     }
 }
 
-async function addUserPresets(id) {
+async function initializeUserArchetypes(id) {
+    const query = {
+        text: 'INSERT INTO archetypes("user") VALUES ($1)',
+        values: [id]
+    }
+    try {
+        const result = await db.query(query);
+        return result;
+    }
+    catch(err) {
+        console.error(err);
+    }
+}
+
+async function initializeUserPresets(id) {
     const query = {
         text: 'INSERT INTO presets("user", "preset") VALUES ($1, 1), ($1, 2), ($1, 3), ($1, 4), ($1, 5)',
         values: [id]
     }
     try {
         const result = await db.query(query);
-        console.log({ result })
+        return result;
     }
     catch(err) {
         console.error(err);
@@ -68,8 +82,9 @@ passport.use(
         }
         else {
             const result = await addUserToDatabase(profile);
-            const presets = await addUserPresets(profile.id);
-            console.log({ result, presets });
+            const archetypes = await initializeUserArchetypes(profile.id);
+            const presets = await initializeUserPresets(profile.id);
+            console.log({ result, archetypes, presets });
             done(null, id)
         }
     })
@@ -88,8 +103,9 @@ passport.use(
         }
         else {
             const result = await addUserToDatabase(profile);
-            const presets = await addUserPresets(profile.id);
-            console.log({ result, presets });
+            const archetypes = await initializeUserArchetypes(profile.id);
+            const presets = await initializeUserPresets(profile.id);
+            console.log({ result, archetypes, presets });
             done(null, id);
         }
     })

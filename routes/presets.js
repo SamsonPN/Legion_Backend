@@ -6,28 +6,36 @@ const db = require('../db');
 router.get('/', async (req, res) => {
     const query = {
         text: 'SELECT characters, preset, stats FROM presets WHERE "user" = $1 ORDER BY preset',
-        values: [15]
+        values: [req.user]
     }
-    const { rows } = await db.query(query);
-    res.json(rows);
+    try {
+        const { rows } = await db.query(query);
+        res.json(rows);
+    }
+    catch(err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 })
 
 router.post('/save', async (req, res) => {
     const { currentPreset, presetNumber, statPositions } = req.body;
     const presetQuery = {
-        text: 'UPDATE presets SET "characters" = $1 WHERE "preset" = $2',
-        values: [currentPreset, presetNumber]
+        text: 'UPDATE presets SET "characters" = $1 WHERE "user" = $2 AND "preset" = $3',
+        values: [currentPreset, req.user, presetNumber]
     };
     const statQuery = {
-        text: 'UPDATE presets SET "stats" = $1 WHERE "preset" = $2',
-        values: [statPositions, presetNumber]
+        text: 'UPDATE presets SET "stats" = $1 WHERE "user" = $2 AND "preset" = $3',
+        values: [statPositions, req.user, presetNumber]
     };
-    const query1 = await db.query(presetQuery);
-    const query2 = await db.query(statQuery);
-    if(query1 && query2){
+
+    try {
+        const query1 = await db.query(presetQuery);
+        const query2 = await db.query(statQuery);
         res.status(200).send({query1, query2});
     }
-    else {
+    catch(err) {
+        console.error(err);
         res.sendStatus(500);
     }
 })
