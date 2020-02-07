@@ -49,7 +49,7 @@ async function initializeUserArchetypes(id) {
 
 async function initializeUserPresets(id) {
     const query = {
-        text: 'INSERT INTO presets("user", "preset") VALUES ($1, 1), ($1, 2), ($1, 3), ($1, 4), ($1, 5)',
+        text: 'INSERT INTO presets("user", "preset") VALUES ($1, 0), ($1, 1), ($1, 2), ($1, 3), ($1, 4)',
         values: [id]
     }
     try {

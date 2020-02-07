@@ -1,11 +1,13 @@
 const { Pool } = require('pg');
+const {user, host, database, password, port} = require('../config/keys').pgadmin;
+
 
 const pool = new Pool({
-    user: 'Samson',
-    host: 'localhost',
-    database: 'Legion',
-    password: 'Sanguyen5',
-    port: 5432
+    user,
+    host,
+    database,
+    password,
+    port
 });
 
 module.exports = {
