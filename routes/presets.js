@@ -40,4 +40,20 @@ router.post('/save', async (req, res) => {
     }
 })
 
+router.delete('/delete', async (req, res) => {
+    const query = {
+        text: 'DELETE FROM presets WHERE "user" = $1 RETURNING *',
+        values: ['3276696012356931'] //replace with req.user
+    }
+    try {
+        const result = await db.query(query); 
+        console.log({ result })
+        res.end();
+    }
+    catch(err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
+})
+
 module.exports = router;
